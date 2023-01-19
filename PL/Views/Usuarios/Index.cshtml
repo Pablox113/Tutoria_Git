@@ -1,0 +1,43 @@
+﻿@model IEnumerable<AccesoDatos.Models.Usuarios>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<h1>Administración de usuarios</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo usuario</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioActivo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <th>
+                    @Html.DisplayFor(model => item.Usuario)
+                </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioActivo)
+            </td>
+            <td>
+                    <!--
+                    <a asp-action="Details" asp-route-id="@item.Usuario" class="btn btn-info">Información</a>
+                    -->
+                    <a asp-action="Edit" asp-route-id="@item.Usuario" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Usuario" class="btn btn-danger">Borrar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
