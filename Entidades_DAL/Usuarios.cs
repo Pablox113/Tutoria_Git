@@ -18,6 +18,7 @@ namespace AccesoDatos.Models
 
         [Display(Name = "Usuario")]
         public string Usuario { get; set; }
+
         [Display(Name = "Contraseña")]
         public string Contrasena { get; set; }
         [Display(Name = "Usuario activo")]

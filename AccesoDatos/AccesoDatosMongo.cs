@@ -10,11 +10,11 @@ namespace AccesoDatos
     public  class AccesoDatosMongo : IAccesoMongo
     {
         #region Atributos
-        private readonly string CadenaConexion = "mongodb+srv://progravan:Progr4van@cluster0.e1ukwux.mongodb.net/?retryWrites=true&w=majority";
+        private readonly string CadenaConexion = "mongodb+srv://dvlcode:BRijnd2905CR@clusterprograavanzada.bpyofbx.mongodb.net/?retryWrites=true&w=majority";
         private MongoClient InstanciaMongo;
         private IMongoDatabase BaseDatos;
 
-        private const string NombreBaseDatos = "Hotel";
+        private const string NombreBaseDatos = "Bitacora";
         #endregion
 
         #region Constructor
@@ -24,7 +24,7 @@ namespace AccesoDatos
             {
                 BaseDatosEnLinea();
             }
-            /*
+            
             catch (MongoException exMDB)
             {
                 throw exMDB;
@@ -33,7 +33,7 @@ namespace AccesoDatos
             {
                 throw ex;
             }
-            // */
+            
             finally
             {
                 if (InstanciaMongo != null)

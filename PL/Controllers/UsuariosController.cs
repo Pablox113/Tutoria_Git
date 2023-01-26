@@ -7,6 +7,9 @@ using AccesoDatos.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
+using System.Reflection;
+
 
 namespace PL.Controllers
 {
@@ -15,7 +18,7 @@ namespace PL.Controllers
         private readonly TutoriaContext _context;
 
 
-        public UsuariosController() // (HotelContext context)
+        public UsuariosController() 
         {
             _context = new TutoriaContext(); // context;
         }
@@ -48,7 +51,6 @@ namespace PL.Controllers
             return View();
         }
 
-
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -56,18 +58,38 @@ namespace PL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Usuario,Contrasena,UsuarioActivo")] Usuarios usuarios)
         {
+            IAccesoMongo bitacora = new AccesoDatosMongo();
+
             if (ModelState.IsValid)
             {
                 _context.Add(usuarios);
                 await _context.SaveChangesAsync();
+                bitacora.AgregarRegistroBitacora(new Accion()
+                {
+                    AccionRealizada = "CrearUsuario",
+                    Objeto = nameof(usuarios),
+                    Instancia = usuarios.GetType().ToString(),
+                    Usuario = HttpContext.User.Identity.Name,
+                    Resultado = "Completado",
+                    Momento = DateTime.Now
+
+                });
                 return RedirectToAction(nameof(Index));
             }
+            bitacora.AgregarRegistroBitacora(new Accion()
+            {
+                AccionRealizada = "CrearUsuario",
+                Objeto = nameof(usuarios),
+                Instancia = usuarios.GetType().ToString(),
+                Usuario = HttpContext.User.Identity.Name,
+                Resultado = "Fallido",
+                Momento = DateTime.Now
+
+            });
             return View(usuarios);
         }
 
-
-
-
+     
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -91,8 +113,19 @@ namespace PL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Usuario,Contrasena,UsuarioActivo")] Usuarios usuarios)
         {
+            IAccesoMongo bitacora = new AccesoDatosMongo();
             if (id != usuarios.Usuario)
             {
+                bitacora.AgregarRegistroBitacora(new Accion()
+                {
+                    AccionRealizada = "EditarUsuario",
+                    Objeto = nameof(usuarios),
+                    Instancia = usuarios.GetType().ToString(),
+                    Usuario = HttpContext.User.Identity.Name,
+                    Resultado = "Usuario no encontrado",
+                    Momento = DateTime.Now
+
+                });
                 return NotFound();
             }
 
@@ -102,6 +135,16 @@ namespace PL.Controllers
                 {
                     _context.Update(usuarios);
                     await _context.SaveChangesAsync();
+                    bitacora.AgregarRegistroBitacora(new Accion()
+                    {
+                        AccionRealizada = "EditarUsuario",
+                        Objeto = nameof(usuarios),
+                        Instancia = usuarios.GetType().ToString(),
+                        Usuario = HttpContext.User.Identity.Name,
+                        Resultado = "Completado",
+                        Momento = DateTime.Now
+
+                    });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -142,9 +185,20 @@ namespace PL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            IAccesoMongo bitacora = new AccesoDatosMongo();
             var usuarios = await _context.Usuarios.FindAsync(id);
             _context.Usuarios.Remove(usuarios);
             await _context.SaveChangesAsync();
+            bitacora.AgregarRegistroBitacora(new Accion()
+            {
+                AccionRealizada = "EliminarUsuario",
+                Objeto = nameof(usuarios),
+                Instancia = usuarios.GetType().ToString(),
+                Usuario = HttpContext.User.Identity.Name,
+                Resultado = "Completado",
+                Momento = DateTime.Now
+
+            });
             return RedirectToAction(nameof(Index));
         }
 
@@ -153,6 +207,6 @@ namespace PL.Controllers
             return _context.Usuarios.Any(e => e.Usuario == id);
         }
     }
-
+    
 }
 

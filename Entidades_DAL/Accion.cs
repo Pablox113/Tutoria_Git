@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using AccesoDatos.Models;
 
 namespace Entidades_DAL
 {
@@ -39,5 +39,9 @@ namespace Entidades_DAL
             Momento = DateTime.MinValue;
         }
         #endregion
+
+        public virtual ICollection<RolesUsuarios> RolesUsuarios { get; set; }
     }
+
+
 }
