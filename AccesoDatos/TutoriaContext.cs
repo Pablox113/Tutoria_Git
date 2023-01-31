@@ -73,6 +73,18 @@ namespace AccesoDatos.Models
                     .HasColumnName("usuario")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.IdRolNavigation)
+                  .WithMany(p => p.RolesUsuarios)
+                  .HasForeignKey(d => d.IdRol)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("fk_roles_usuarios_roles");
+
+                entity.HasOne(d => d.UsuarioNavigation)
+                    .WithMany(p => p.RolesUsuarios)
+                    .HasForeignKey(d => d.Usuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_roles_usuarios_usuarios");
             });
 
             modelBuilder.Entity<Usuarios>(entity =>

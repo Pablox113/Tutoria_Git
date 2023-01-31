@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Gerente";
+}
+
+<h1>Administración del hotel</h1>
+<hr />
+<p class="text-body">Utilice estas opciones para administrar los accesos y habitaciones del hotel.</p>
+
+<div class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-left box-shadow mb-3">
+    <table class="table">
+        <tr>
+            <th class="col-sm-3">Módulo</th>
+            <th class="col-sm-10">Descripción</th>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+            </td>
+            <td>
+                Crear, modificar o eliminar usuarios. Incluye: cambio de contraseñas.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn-link" asp-controller="Roles" asp-action="Index">Roles</a>
+            </td>
+            <td>
+                Crear, modificar o eliminar roles (perfiles) de usuario.
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <a class="btn-link" asp-controller="RolesUsuarios" asp-action="Index">Asignar Rol</a>
+            </td>
+            <td>
+                Crear, modificar o eliminar usuarios. Incluye: cambio de contraseñas.
+            </td>
+        </tr>
+        
+    </table>
+</div>
